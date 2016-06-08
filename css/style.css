@@ -6,39 +6,69 @@ p {
 .nav-wrapper,
 nav,
 nav ul,
-nav ul li {
+nav ul li,
+.secondary-nav,
+.secondary {
   box-sizing: border-box;
   width: 200px;
   z-index: 1;
   transition: all 250ms ease-in-out; }
 
-nav {
-  background-color: #efefef;
+nav,
+.secondary {
   height: 100%;
   position: absolute;
   box-shadow: 1px 1px 1px #ccc; }
 
+nav {
+  background-color: #efefef; }
+
+.secondary {
+  background-color: gray; }
+
 nav ul,
-nav ul li {
+nav ul li
+.secondary ul,
+.secondary ul li {
   position: relative; }
 
-nav ul {
+nav ul,
+.secondary ul {
   padding: 0;
   margin: 0; }
 
-nav ul li {
+nav ul li,
+.secondary ul li {
   cursor: pointer;
   list-style-type: none;
   padding: 10px;
   border-top: 1px solid #ccc;
   border-bottom: 0;
   transition: all 250ms ease-in-out; }
-  nav ul li:first-of-type {
-    border-top: none; }
-  nav ul li:last-of-type {
-    border-bottom: 1px solid #ccc; }
-  nav ul li:hover {
-    background-color: #d9fb77; }
+
+nav ul li:first-of-type {
+  border-top: none; }
+nav ul li:last-of-type {
+  border-bottom: 1px solid #ccc; }
+nav ul li:hover {
+  background-color: #d9fb77; }
+
+.secondary {
+  width: 170px;
+  height: 100vH;
+  position: absolute;
+  z-index: 2; }
+  .secondary ul {
+    width: 170px; }
+  .secondary li {
+    color: #fff;
+    z-index: 2; }
+    .secondary li:hover {
+      background-color: #ddd; }
+    .secondary li:first-of-type {
+      border-top: none; }
+    .secondary li:last-of-type {
+      border-bottom: 1px solid #ccc; }
 
 #slide-out {
   background: url("https://pbs.twimg.com/profile_images/378800000674268962/06ce58cab26c3a0daf80cf57e5acb29b.jpeg") no-repeat;

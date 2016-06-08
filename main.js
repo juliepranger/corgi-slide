@@ -6,6 +6,12 @@ var nav = function() {
     this.nav.style.marginLeft = '-' + this.navWidth + 'px';
     this.slideOutBtn.style.left = '0px';
     this.corgiList = document.getElementsByClassName('corgi');
+    this.secondaryList = document.getElementsByClassName('secondary');
+
+    for (var i = 0; i < this.secondaryList.length; i++) {
+        this.secondaryList[i].style.width = this.navWidth - 30;
+        this.secondaryList[i].style.marginLeft = '-' + this.navWidth - 20 + 'px';
+    }
 
     this.initListeners();
 };
@@ -25,14 +31,15 @@ nav.prototype.initListeners = function() {
     }.bind(this));
 
     for (var i = 0; i < this.corgiList.length; i++) {
-        this.initReleaseListeners(this.corgiList[i], i);
+        this.initSecondaryListeners(this.corgiList[i], i);
     }
 };
 
-nav.prototype.initReleaseListeners = function(element, index) {
+nav.prototype.initSecondaryListeners = function(element, index) {
     var element = element;
     element.addEventListener('click', function(e) {
-        this.releaseTheCorgs(index);
+        // this.releaseTheCorgs(index);
+        this.secondarySlide(element, index);
     }.bind(this));
 };
 
@@ -55,18 +62,49 @@ nav.prototype.slide = function(e) {
         this.nav.classList.remove('open');
         this.nav.style.marginLeft = '-' + this.navWidth + 'px';
         this.slideOutBtn.style.left = '0px';
+
+        for (var i = 0; i < this.secondaryList.length; i++) {
+            this.secondaryList[i].style.width = this.navWidth - 30;
+            this.secondaryList[i].style.marginLeft = '-' + this.navWidth - 20 + 'px';
+        }
     }
 };
+
+
+
+nav.prototype.secondarySlide = function(element, index) {
+    var secondary = this.secondaryList[index];
+
+    console.log(secondary, secondary.offsetTop)
+    secondary.style.marginLeft = '0px';
+    // secondary.style.top = '-' + element.offsetTop + 'px';
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Triggered by clicking on the nav items
  * Releases a num of Corgis depending on the item clicked
  */
-nav.prototype.releaseTheCorgs = function(num) {
-    var number = (num + 1) * 10;
-    console.log(number)
+// nav.prototype.releaseTheCorgs = function(num) {
+//     var number = (num + 1) * 10;
+//     console.log(number)
 
     // randomly grab the number of images from the array and put into a new array
 
 
     // drop into the DOM at an interval
-}
+// }
