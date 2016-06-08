@@ -12,14 +12,19 @@ nav ul li {
     z-index: 1;
     transition: all 250ms ease-in-out;
 }
-.nav-wrapper {
+
+nav {
+    background-color: #efefef;
+    height: 100%;
     position: absolute;
+    box-shadow: 1px 1px 1px #ccc;
 }
-nav,
+
 nav ul,
 nav ul li {
     position: relative;
 }
+
 nav ul {
     padding: 0;
     margin: 0;
@@ -28,12 +33,14 @@ nav ul li {
     cursor: pointer;
     list-style-type: none;
     padding: 10px;
-    background-color: #efefef;
-    border: 1px solid black;
+    border-top: 1px solid #ccc;
     border-bottom: 0;
     transition: all 250ms ease-in-out;
+    &:first-of-type {
+        border-top: none;
+    }
     &:last-of-type {
-        border: 1px solid black;
+        border-bottom: 1px solid #ccc;
     }
     &:hover {
         background-color: #d9fb77;
