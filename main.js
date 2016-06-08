@@ -1,5 +1,6 @@
 var nav = function() {
     this.nav = document.getElementById('nav');
+    this.secondaryNavWrapper = document.querySelector('.secondary-nav');
     this.navWidth = this.nav.style.width;
     this.navWidth = 200;
     this.slideOutBtn = document.getElementById('slide-out');
@@ -58,7 +59,8 @@ nav.prototype.slide = function(e) {
             this.slideOutBtn.style.left = this.navWidth - 20 + 'px';
         }
     } else if (!this.nav.contains(e.target) &&
-        (this.slideOutBtn !== e.target)) {
+        (this.slideOutBtn !== e.target) &&
+        (!this.secondaryNavWrapper.contains(e.target))) {
         this.nav.classList.remove('open');
         this.nav.style.marginLeft = '-' + this.navWidth + 'px';
         this.slideOutBtn.style.left = '0px';
