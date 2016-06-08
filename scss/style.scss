@@ -1,0 +1,53 @@
+body,
+p {
+    margin: 0;
+    overflow: hidden;
+}
+.nav-wrapper,
+nav,
+nav ul,
+nav ul li {
+    box-sizing: border-box;
+    width: 200px;
+    z-index: 1;
+    transition: all 250ms ease-in-out;
+}
+.nav-wrapper {
+    position: absolute;
+}
+nav,
+nav ul,
+nav ul li {
+    position: relative;
+}
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+nav ul li {
+    cursor: pointer;
+    list-style-type: none;
+    padding: 10px;
+    background-color: #efefef;
+    border: 1px solid black;
+    border-bottom: 0;
+    transition: all 250ms ease-in-out;
+    &:last-of-type {
+        border: 1px solid black;
+    }
+    &:hover {
+        background-color: #d9fb77;
+    }
+}
+#slide-out {
+    background: url('https://pbs.twimg.com/profile_images/378800000674268962/06ce58cab26c3a0daf80cf57e5acb29b.jpeg') no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    right: -20px;
+    z-index: 2;
+    transition: all 250ms ease-in-out;
+}
