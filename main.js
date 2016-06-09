@@ -79,7 +79,14 @@ nav.prototype.secondarySlide = function(element, index) {
 
     console.log(secondary, secondary.offsetTop)
     secondary.style.marginLeft = '0px';
-    // secondary.style.top = '-' + element.offsetTop + 'px';
+
+    if (secondary.classList.contains('open')) {
+        secondary.classList.remove('open');
+        secondary.style.marginLeft = '-' + this.navWidth + 'px';
+    } else {
+        secondary.classList.add('open');
+        secondary.style.marginLeft = '0px';
+    }
 };
 
 
