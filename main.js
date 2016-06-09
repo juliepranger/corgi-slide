@@ -47,6 +47,7 @@ nav.prototype.initSecondaryListeners = function(element, index) {
 
 nav.prototype.slide = function(e) {
     console.log('E.TARGET: ', e.target);
+
     if (this.slideOutBtn === e.target) {
         if (this.nav.classList.contains('open')) {
             this.nav.classList.remove('open');
@@ -58,20 +59,18 @@ nav.prototype.slide = function(e) {
             this.nav.style.marginLeft = '0px';
             this.slideOutBtn.style.left = this.navWidth - 20 + 'px';
         }
+    } else if (this.nav.contains(e.target) &&
+        !this.nav.children[0].contains(e.target) && this.nav.classList.contains('open')) {
+            console.log('triggered')
+            this.nav.classList.remove('open');
+            this.nav.style.marginLeft = '-' + this.navWidth + 'px';
+            this.slideOutBtn.style.left = '0px';
     } else if (!this.nav.contains(e.target) &&
         (this.slideOutBtn !== e.target) &&
         (!this.secondaryNavWrapper.contains(e.target))) {
-        this.nav.classList.remove('open');
-        this.nav.style.marginLeft = '-' + this.navWidth + 'px';
-        this.slideOutBtn.style.left = '0px';
-
-        for (var i = 0; i < this.secondaryList.length; i++) {
-            this.secondaryList[i].style.width = this.navWidth - 30;
-            this.secondaryList[i].style.marginLeft = '-' + this.navWidth - 20 + 'px';
-        }
+            this.closeAllSliders();
     }
 };
-
 
 
 nav.prototype.secondarySlide = function(element, index) {
@@ -95,14 +94,11 @@ nav.prototype.addSecondaryListeners = function(element) {
 
     setTimeout(function() {
         document.addEventListener('click', function(e) {
-                console.log('EL: ', element, 'CHILDREN: ', element.children, 'TARGET: ', e.target);
             if (element.classList.contains('open') &&
                 this.nav.contains(e.target)) {
-                    console.log('close the secondary slide!');
                     this.closeSecondarySlide(element);
             }
             else if (element.classList.contains('open') && element.contains(e.target) && element.children !== e.target){
-                console.log('CLOSE IT')
                 this.closeSecondarySlide(element);
             }
             else {
@@ -119,6 +115,18 @@ nav.prototype.closeSecondarySlide = function(element) {
     console.log('secondary');
     secondary.classList.remove('open');
     secondary.style.marginLeft = '-' + this.navWidth + 'px';
+};
+
+
+nav.prototype.closeAllSliders = function() {
+    this.nav.classList.remove('open');
+    this.nav.style.marginLeft = '-' + this.navWidth + 'px';
+    this.slideOutBtn.style.left = '0px';
+
+    for (var i = 0; i < this.secondaryList.length; i++) {
+        this.secondaryList[i].style.width = this.navWidth - 30;
+        this.secondaryList[i].style.marginLeft = '-' + this.navWidth - 20 + 'px';
+    }
 };
 
 
