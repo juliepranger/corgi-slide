@@ -77,8 +77,6 @@ nav.prototype.slide = function(e) {
 nav.prototype.secondarySlide = function(element, index) {
 
     var secondary = this.secondaryList[index];
-
-    console.log(secondary, secondary.offsetTop)
     secondary.style.marginLeft = '0px';
 
     if (secondary.classList.contains('open')) {
@@ -94,17 +92,20 @@ nav.prototype.secondarySlide = function(element, index) {
 
 
 nav.prototype.addSecondaryListeners = function(element) {
-    console.log('element 2 listen 2: ', element);
 
     setTimeout(function() {
-        console.log('TIMEOUT AND GO')
         document.addEventListener('click', function(e) {
-            console.log('CLICK');
+                console.log('EL: ', element, 'CHILDREN: ', element.children, 'TARGET: ', e.target);
             if (element.classList.contains('open') &&
                 this.nav.contains(e.target)) {
                     console.log('close the secondary slide!');
                     this.closeSecondarySlide(element);
-            } else {
+            }
+            else if (element.classList.contains('open') && element.contains(e.target) && element.children !== e.target){
+                console.log('CLOSE IT')
+                this.closeSecondarySlide(element);
+            }
+            else {
                 return;
             }
         }.bind(this));
