@@ -6,8 +6,9 @@ var nav = function() {
     this.slideOutBtn = document.getElementById('slide-out');
     this.nav.style.marginLeft = '-' + this.navWidth + 'px';
     this.slideOutBtn.style.left = '0px';
-    this.corgiList = document.getElementsByClassName('corgi');
+    this.list = document.getElementsByClassName('list');
     this.secondaryList = document.getElementsByClassName('secondary');
+    this.secondaryIsOpen = false;
 
     for (var i = 0; i < this.secondaryList.length; i++) {
         this.secondaryList[i].style.width = this.navWidth - 30;
@@ -31,29 +32,24 @@ nav.prototype.initListeners = function() {
         }
     }.bind(this));
 
-    for (var i = 0; i < this.corgiList.length; i++) {
-        this.initSecondaryListeners(this.corgiList[i], i);
+    for (var i = 0; i < this.list.length; i++) {
+        this.initSecondaryListeners(this.list[i], i);
     }
 };
 
 nav.prototype.initSecondaryListeners = function(element, index) {
     var element = element;
-    element.addEventListener('click', function(e) {
-        // this.releaseTheCorgs(index);
-        this.secondarySlide(element, index);
-    }.bind(this));
+    element.addEventListener('click', this.secondarySlide.bind(this, element, index));
 };
 
 
 nav.prototype.slide = function(e) {
-    console.log('E.TARGET: ', e.target);
 
     if (this.slideOutBtn === e.target) {
         if (this.nav.classList.contains('open')) {
             this.nav.classList.remove('open');
             this.nav.style.marginLeft = '-' + this.navWidth + 'px';
             this.slideOutBtn.style.left = '0px';
-
         } else {
             this.nav.classList.add('open');
             this.nav.style.marginLeft = '0px';
@@ -61,10 +57,14 @@ nav.prototype.slide = function(e) {
         }
     } else if (this.nav.contains(e.target) &&
         !this.nav.children[0].contains(e.target) && this.nav.classList.contains('open')) {
-            console.log('triggered')
-            this.nav.classList.remove('open');
-            this.nav.style.marginLeft = '-' + this.navWidth + 'px';
-            this.slideOutBtn.style.left = '0px';
+            if(this.secondaryIsOpen) {
+                this.closeSecondarySlide();
+            } else {
+                this.nav.classList.remove('open');
+                this.nav.style.marginLeft = '-' + this.navWidth + 'px';
+                this.slideOutBtn.style.left = '0px';
+            }
+
     } else if (!this.nav.contains(e.target) &&
         (this.slideOutBtn !== e.target) &&
         (!this.secondaryNavWrapper.contains(e.target))) {
@@ -79,9 +79,11 @@ nav.prototype.secondarySlide = function(element, index) {
     secondary.style.marginLeft = '0px';
 
     if (secondary.classList.contains('open')) {
+        this.secondaryIsOpen = false;
         secondary.classList.remove('open');
         secondary.style.marginLeft = '-' + this.navWidth + 'px';
     } else {
+        this.secondaryIsOpen = true;
         secondary.classList.add('open');
         secondary.style.marginLeft = '0px';
     }
@@ -92,29 +94,44 @@ nav.prototype.secondarySlide = function(element, index) {
 
 nav.prototype.addSecondaryListeners = function(element) {
 
-    setTimeout(function() {
-        document.addEventListener('click', function(e) {
-            if (element.classList.contains('open') &&
-                this.nav.contains(e.target)) {
-                    this.closeSecondarySlide(element);
-            }
-            else if (element.classList.contains('open') && element.contains(e.target) && element.children !== e.target){
-                this.closeSecondarySlide(element);
-            }
-            else {
-                return;
-            }
-        }.bind(this));
-    }.bind(this), 250);
-
+    if(element.classList.contains('open')) {
+        setTimeout(function() {
+            element.addEventListener('click', this.secondaryToggle.bind(this, element));
+        }.bind(this), 5)
+    } else {
+        return;
+    }
 };
 
 
+nav.prototype.secondaryToggle = function(element, e) {
+
+    var element = element;
+
+    if (element.classList.contains('open') &&
+        this.nav.contains(e.target)) {
+        this.closeSecondarySlide(element);
+    }
+    else if (element.classList.contains('open') && element.contains(e.target) && element.children !== e.target){
+        this.closeSecondarySlide(element);
+    }
+    else {
+        return;
+    }
+};
+
 nav.prototype.closeSecondarySlide = function(element) {
     var secondary = element;
-    console.log('secondary');
-    secondary.classList.remove('open');
-    secondary.style.marginLeft = '-' + this.navWidth + 'px';
+    this.secondaryIsOpen = false;
+    if(secondary) {
+        secondary.classList.remove('open');
+        secondary.style.marginLeft = '-' + this.navWidth + 'px';
+    }
+
+    for (var i = 0; i < this.secondaryList.length; i++) {
+        this.secondaryList[i].classList.remove('open');
+        this.secondaryList[i].style.marginLeft = '-' + this.navWidth + 'px';
+    }
 };
 
 
@@ -122,8 +139,10 @@ nav.prototype.closeAllSliders = function() {
     this.nav.classList.remove('open');
     this.nav.style.marginLeft = '-' + this.navWidth + 'px';
     this.slideOutBtn.style.left = '0px';
+    this.secondaryIsOpen = false;
 
     for (var i = 0; i < this.secondaryList.length; i++) {
+        this.secondaryList[i].classList.remove('open');
         this.secondaryList[i].style.width = this.navWidth - 30;
         this.secondaryList[i].style.marginLeft = '-' + this.navWidth - 20 + 'px';
     }
