@@ -1,47 +1,81 @@
 <head>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
+
 <body>
-  <div class="nav-wrapper">
-    <div id="slide-out"></div>
-    <nav id="nav">
-      <ul>
-        <li class="list">One
-        </li>
-        <li class="list">Two
-        </li>
-        <li class="list">Three
-        </li>
-      </ul>
-    </nav>
-    <div class="secondary-nav">
-        <div class="secondary">
+    <div class="nav-wrapper">
+        <div id="slide-out"></div>
+        <nav id="nav">
             <ul>
-                <li>One child</li>
+                <li class="list">One
+                </li>
+                <li class="list">Two
+                </li>
+                <li class="list">Three
+                </li>
             </ul>
+        </nav>
+        <div class="secondary-nav">
+            <div class="secondary">
+                <ul>
+                    <li>One child</li>
+                    <li>One child</li>
+                    <li>One child</li>
+                    <li>One child</li>
+                </ul>
+            </div>
+            <div class="secondary">
+                <ul>
+                    <li>Two child</li>
+                    <li>Two child</li>
+                    <li>Two child</li>
+                    <li>Two child</li>
+                </ul>
+            </div>
+            <div class="secondary">
+                <ul>
+                    <li>Three child</li>
+                    <li>Three child</li>
+                    <li>Three child</li>
+                </ul>
+            </div>
         </div>
-        <div class="secondary">
-            <ul>
-                <li>Two child</li>
-            </ul>
-        </div>
-        <div class="secondary">
-            <ul>
-                <li>Three child</li>
-            </ul>
+        <div class="tertiary-nav">
+            <div class="tertiary">
+                <ul>
+                    <li>One grandchild</li>
+                    <li>One grandchild</li>
+                    <li>One grandchild</li>
+                </ul>
+            </div>
+            <div class="tertiary">
+                <ul>
+                    <li>Two grandchild</li>
+                    <li>Two grandchild</li>
+                    <li>Two grandchild</li>
+                </ul>
+            </div>
+            <div class="tertiary">
+                <ul>
+                    <li>Three grandchild</li>
+                    <li>Three grandchild</li>
+                    <li>Three grandchild</li>
+                </ul>
+            </div>
         </div>
     </div>
-  </div>
 
-  <div>
+    <div>
 
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cup</p></div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+            dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cup</p>
+    </div>
 
 </body>
-<script src="main.js"></script>
+<script src="main2.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    new nav();
-});
+    document.addEventListener('DOMContentLoaded', function() {
+        new slideOutNav();
+    });
 </script>
