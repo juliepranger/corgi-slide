@@ -43,17 +43,22 @@ slideOutNav.prototype.init = function()
         // any navigation element
     document.addEventListener('click', function(e)
     {
-        if (this.slideOutBtn === e.target)
-        {
-            return;
-        }
-        else if (this.primaryNav.children[0].contains(e.target)) {
-            this.togglePrimaryNav();
-        }
-        else
-        {
-            this.closeAll(e)
-        }
+        // if (this.slideOutBtn === e.target)
+        // {
+        //     return;
+        // }
+        // else if (this.primaryNav.children[0].contains(e.target))
+        // {
+        //     this.togglePrimaryNav();
+        // }
+        // else if (this.primaryNav.children[0].contains(e.target))
+        // {
+        //     return;
+        // }
+        // else
+        // {
+        //     this.closeAll(e)
+        // }
     }.bind(this));
 
     // add listener for slide out button - trigger primary nav toggle function
@@ -63,13 +68,15 @@ slideOutNav.prototype.init = function()
     }.bind(this));
 
     // add listener for clicking on primary nav elements - trigger secondary nav toggle function
+    for (var i = 0; i < this.primaryList.length; i++) {
+        this.primaryList[i].addEventListener('click', this.toggleSecondaryNav.bind(this, this.primaryList[i], i))
+    }
 
     // add listener for clicking on secondary nav elements - trigger tertiary nav toggle function
-
-
-    ///////////////
-
-
+    for (var i = 0; i < this.secondaryList.length; i++) {
+        console.log(this.secondaryList[i])
+        this.secondaryList[i].addEventListener('click', this.toggleTertiaryNav.bind(this, this.secondaryList[i], i))
+    }
     // if all navs are open and user clicks on open secondary nav, close tertiary nav
 
     // if all navs are open and user clicks on open primary nav, close tertiary and secondary nav
@@ -81,9 +88,18 @@ slideOutNav.prototype.init = function()
 };
 
 
+// slideOutNav.prototype.initPrimaryListeners = function(primary, index, e)
+// {
+//     primary.addEventListener(
+//         'click',
+//         this.toggleSecondaryNav.bind(this, primary, index)
+//     );
+// };
+
+
 slideOutNav.prototype.togglePrimaryNav = function(e)
 {
-
+    console.log('toggle primary nav')
     // if primary nav has class, remove class
     if (this.primaryNav.classList.contains(this.OPEN_CLASS))
     {
@@ -101,26 +117,50 @@ slideOutNav.prototype.togglePrimaryNav = function(e)
 };
 
 
-slideOutNav.prototype.toggleSecondaryNav = function()
+slideOutNav.prototype.toggleSecondaryNav = function(element, index, e)
 {
-
+    console.log(element, index, e)
     // if primary nav is open
-
+    if (this.primaryIsOpen) {
         // if secondary nav has class, remove class
+        if (this.secondaryList[index].classList.contains(this.OPEN_CLASS))
+        {
+            this.secondaryIsOpen = false;
+            this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
+            this.removeClass(this.secondaryList[index], this.OPEN_CLASS);
+        }
+        else
+        {
+            // else, add class
+            this.secondaryIsOpen = true;
+            this.addClass(this.slideOutBtn, this.OPEN_CLASS);
+            this.addClass(this.secondaryList[index], this.OPEN_CLASS);
+        }
 
-        // else, add class
+    }
 
 };
 
 
-slideOutNav.prototype.toggleTertiaryNav = function()
+slideOutNav.prototype.toggleTertiaryNav = function(element, index, e)
 {
-
+    console.log(element, index, e)
     // if primary nav is open && secondary nav is open
-
+    if (this.primaryIsOpen && this.secondaryIsOpen)
+    {
         // if secondary nav has class, remove class
-
+        if (this.tertiaryList[index].classList.contains(this.OPEN_CLASS))
+        {
+            this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
+            this.removeClass(this.tertiaryList[index], this.OPEN_CLASS);
+        }
+        else
+        {
         // else, add class
+            this.addClass(this.slideOutBtn, this.OPEN_CLASS);
+            this.addClass(this.tertiaryList[index], this.OPEN_CLASS);
+        }
+    }
 };
 
 
@@ -135,7 +175,7 @@ slideOutNav.prototype.closeAll = function()
 
 slideOutNav.prototype.addClass = function(el, className)
 {
-    console.log('add class to : ', el)
+    // console.log('add class to : ', el)
     el.classList.add(className);
 
 };
@@ -143,6 +183,6 @@ slideOutNav.prototype.addClass = function(el, className)
 
 slideOutNav.prototype.removeClass = function(el, className)
 {
-    console.log('remove class from : ', el)
+    // console.log('remove class from : ', el)
     el.classList.remove(className);
 };
