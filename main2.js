@@ -29,6 +29,8 @@ var slideOutNav = function() {
     // button to initially expand nav
     this.slideOutBtn = document.getElementById('slide-out');
 
+    this.activeIndex;
+
 
     // init listeners
     this.init();
@@ -37,27 +39,88 @@ var slideOutNav = function() {
 
 slideOutNav.prototype.init = function()
 {
-
     // add listener for document - close if hitting anything besides:
         // the slideOut button
         // any navigation element
     document.addEventListener('click', function(e)
     {
-        // if (this.slideOutBtn === e.target)
+        // console.log(this.containsElement(this.primaryNav.children[0], e.target))
+        // console.log(this.containsElement(this.secondaryNav.children[0], e.target))
+        // console.log(this.containsElement(this.tertiaryNav.children[0], e.target))
+        if (this.slideOutBtn === e.target)
+        {
+            return;
+        }
+        else if (this.containsElement(this.primaryNav, e.target))
+        {
+            console.log('target within primary nav!')
+            if (this.containsElement(this.secondaryNav, e.target) && !this.containsElement(this.secondaryNav.children[0], e.target) && this.secondaryIsOpen)
+            {
+                console.log('secondary clicked on and open!')
+                this.toggleSecondaryNav(this.activeIndex);
+            }
+            else if (this.containsElement(this.tertiaryNav, e.target) && !this.containsElement(this.tertiaryNav.children[0], e.target) && this.tertiaryIsOpen)
+            {
+                console.log('tertiary clicked on and open!')
+                this.toggleTertiaryNav(this.activeIndex);
+            }
+
+            else if (!this.containsElement(this.primaryNav.children[0], e.target) && this.primaryIsOpen)
+            {
+                console.log('primary clicked on and open!')
+                if (this.secondaryIsOpen)
+                {
+                    if(this.tertiaryIsOpen)
+                    {
+                        this.toggleSecondaryNav(this.activeIndex);
+                        this.toggleTertiaryNav(this.activeIndex);
+                    }
+                    else
+                    {
+                        this.toggleSecondaryNav(this.activeIndex);
+                    }
+                }
+                else
+                {
+                    this.togglePrimaryNav();
+                }
+            }
+            // else if (!this.containsElement(this.secondaryNav.children[0], e.target) && this.secondaryIsOpen)
+            // {
+            //     console.log('HERE: ', e.target)
+            //     // if(this.tertiaryIsOpen)
+            //     // {
+            //     //     this.toggleTertiaryNav(this.activeIndex);
+            //     // }
+            //     // else
+            //     // {
+            //     //     this.toggleSecondaryNav(this.activeIndex);
+            //     // }
+            // }
+            // else if (this.containsElement(this.secondaryNav, e.target) && !this.containsElement(this.secondaryNav.children[0], e.target) && this.secondaryIsOpen)
+            // {
+            //     console.log('secondary clicked on and open!')
+            //     this.toggleSecondaryyNav(this.activeIndex);
+            // }
+            // // else if (this.containsElement(this.tertiaryNav, e.target) && !this.containsElement(this.tertiaryNav.children[0], e.target) && this.tertiaryIsOpen)
+            // {
+            //     console.log('tertiary clicked on and open!')
+            //     this.toggleTertiaryNav(this.activeIndex);
+            // }
+            else
+            {
+                console.log('do nothing!')
+            }
+        }
+
+
+        // else if (this.secondaryNav.children[0].contains(e.target))
         // {
-        //     return;
+        //     this.toggleSecondaryNav(e);
         // }
-        // else if (this.primaryNav.children[0].contains(e.target))
+        // else if (this.tertiaryNav.children[0].contains(e.target))
         // {
-        //     this.togglePrimaryNav();
-        // }
-        // else if (this.primaryNav.children[0].contains(e.target))
-        // {
-        //     return;
-        // }
-        // else
-        // {
-        //     this.closeAll(e)
+        //     this.toggleTertiaryNav(e);
         // }
     }.bind(this));
 
@@ -69,13 +132,12 @@ slideOutNav.prototype.init = function()
 
     // add listener for clicking on primary nav elements - trigger secondary nav toggle function
     for (var i = 0; i < this.primaryList.length; i++) {
-        this.primaryList[i].addEventListener('click', this.toggleSecondaryNav.bind(this, this.primaryList[i], i))
+        this.primaryList[i].addEventListener('click', this.toggleSecondaryNav.bind(this, i))
     }
 
     // add listener for clicking on secondary nav elements - trigger tertiary nav toggle function
     for (var i = 0; i < this.secondaryList.length; i++) {
-        console.log(this.secondaryList[i])
-        this.secondaryList[i].addEventListener('click', this.toggleTertiaryNav.bind(this, this.secondaryList[i], i))
+        this.secondaryList[i].addEventListener('click', this.toggleTertiaryNav.bind(this, i))
     }
     // if all navs are open and user clicks on open secondary nav, close tertiary nav
 
@@ -117,16 +179,18 @@ slideOutNav.prototype.togglePrimaryNav = function(e)
 };
 
 
-slideOutNav.prototype.toggleSecondaryNav = function(element, index, e)
+slideOutNav.prototype.toggleSecondaryNav = function(index, e)
 {
-    console.log(element, index, e)
+    this.activeIndex = index;
+
+    console.log(index, e)
     // if primary nav is open
-    if (this.primaryIsOpen) {
+    if (this.primaryIsOpen || e === undefined) {
         // if secondary nav has class, remove class
         if (this.secondaryList[index].classList.contains(this.OPEN_CLASS))
         {
             this.secondaryIsOpen = false;
-            this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
+            // this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
             this.removeClass(this.secondaryList[index], this.OPEN_CLASS);
         }
         else
@@ -142,21 +206,27 @@ slideOutNav.prototype.toggleSecondaryNav = function(element, index, e)
 };
 
 
-slideOutNav.prototype.toggleTertiaryNav = function(element, index, e)
+slideOutNav.prototype.toggleTertiaryNav = function(index, e)
 {
-    console.log(element, index, e)
+    this.activeIndex = index;
+    console.log(index, e)
+    console.log(this.tertiaryList[index].classList.contains(this.OPEN_CLASS), this.tertiaryList[index], this.tertiaryList.classList)
     // if primary nav is open && secondary nav is open
-    if (this.primaryIsOpen && this.secondaryIsOpen)
+    if (this.primaryIsOpen || e === undefined)
     {
         // if secondary nav has class, remove class
         if (this.tertiaryList[index].classList.contains(this.OPEN_CLASS))
         {
-            this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
+            console.log('remove class')
+            this.tertiaryIsOpen = false;
+            // this.removeClass(this.slideOutBtn, this.OPEN_CLASS);
             this.removeClass(this.tertiaryList[index], this.OPEN_CLASS);
         }
         else
         {
         // else, add class
+            console.log('add class')
+            this.tertiaryIsOpen = true;
             this.addClass(this.slideOutBtn, this.OPEN_CLASS);
             this.addClass(this.tertiaryList[index], this.OPEN_CLASS);
         }
@@ -170,6 +240,11 @@ slideOutNav.prototype.closeAll = function()
     this.removeClass(this.primaryNav, this.OPEN_CLASS);
     this.removeClass(this.secondaryNav, this.OPEN_CLASS);
     this.removeClass(this.tertiaryNav, this.OPEN_CLASS)
+}
+
+
+slideOutNav.prototype.containsElement = function(parent, child) {
+    return parent.contains(child);
 }
 
 
